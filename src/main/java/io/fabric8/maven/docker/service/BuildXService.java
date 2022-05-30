@@ -135,11 +135,6 @@ public class BuildXService {
         cmdLine.add("--cache-to=type=local,dest=" + cacheDir);
         cmdLine.add("--cache-from=type=local,src=" + cacheDir);
 
-        String dockerfileName = buildConfiguration.getDockerfileName();
-        if (dockerfileName != null) {
-            cmdLine.add("--file");
-            cmdLine.add(dockerfileName);
-        }
         cmdLine.add(buildDirs.getOutputDirectory().getAbsolutePath());
 
         int rc = exec.process(cmdLine);
