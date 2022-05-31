@@ -135,8 +135,18 @@ public class BuildXService {
         cmdLine.add("--cache-to=type=local,dest=" + cacheDir);
         cmdLine.add("--cache-from=type=local,src=" + cacheDir);
 
-        cmdLine.add(buildDirs.getOutputDirectory().getAbsolutePath());
-
+        File dockerFile = buildConfiguration.getDockerFile();
+        if (dockerFile != null) {
+            cmdLine.add("--file=" + dockerFile.getAbsolutePath());
+        }
+        File contextDir = buildConfiguration.getContextDir();
+        if (contextDir != null) {
+            cmdLine.add(contextDir.getAbsolutePath());
+        }
+        else {
+            cmdLine.add(buildDirs.getOutputDirectory().getAbsolutePath());
+        }
+        
         int rc = exec.process(cmdLine);
         if (rc != 0) {
             throw new MojoExecutionException("Error status (" + rc + ") when building");
